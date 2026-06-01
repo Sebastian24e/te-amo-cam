@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>te amo cam</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #122620 0%, #06110e 100%);
+            color: #f4ebd0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            color: #d62246; 
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        p.subtitulo {
+            font-style: italic;
+            color: #a1c181; 
+            font-size: 1.2rem;
+        }
+
+        
+        .clocks-wrapper {
+            display: flex;
+            gap: 4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 5rem;
+            margin-top: 3rem;
+        }
+
+        .clock-holder {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart-shape {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background-color: #d62246;
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 30px rgba(214, 34, 70, 0.4);
+            z-index: 1;
+        }
+
+        .heart-shape::before,
+        .heart-shape::after {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background-color: #d62246;
+            border-radius: 50%;
+        }
+
+        .heart-shape::before { top: -65px; left: 0; }
+        .heart-shape::after { top: 0; left: 65px; }
+
+        .heart-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 15px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+       
+        .heart-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            margin-bottom: 8px;
+        }
+
+        .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.35);
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+      
+        .mood-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 4rem;
+        }
+
+        .mood-title {
+            font-size: 1.5rem;
+            color: #a1c181;
+            margin-bottom: 1.5rem;
+        }
+
+        .mood-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .mood-btn-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .mood-btn-select:hover {
+            transform: translateY(-3px);
+            background: #d62246;
+        }
+
+        #mood-message {
+            font-style: italic;
+            color: #f4ebd0;
+            font-size: 1.1rem;
+            min-height: 24px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* --- GALERÍA ESTILO POLAROID --- */
+        .gallery-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-title {
+            color: #a1c181;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .photos-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .polaroid {
+            background: #ffffff;
+            padding: 15px;
+            padding-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+            width: 250px;
+        }
+
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 20;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .polaroid .caption {
+            margin-top: 15px;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        
+        .counter-container {
+            background: rgba(214, 34, 70, 0.1);
+            border: 2px dashed #a1c181;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .counter-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #d62246;
+        }
+
+        #contador {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* BOTÓN FLOTANTE MÚSICA */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d62246;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+        .music-btn:hover { background: #b01c3a; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Miraaaa</h1>
+        <p class="subtitulo">Asi podemoos saber que hora tiene cada unooo</p>
+    </header>
+
+    <div class="clocks-wrapper">
+        
+        <div class="clock-holder">
+            <div class="heart-shape"></div>
+            <div class="heart-text">
+                <!-- Puedes cambiar este enlace por una foto tuya (ejemplo: foto_novio.jpg) -->
+                <img class="heart-avatar" src="C:\Users\tibur\Documents\10\peabody.jpg" alt="Él">
+                <div id="reloj-edomex" class="time">00:00:00</div>
+            </div>
+        </div>
+
+        
+        <div class="clock-holder">
+            <div class="heart-shape"></div>
+            <div class="heart-text">
+                <!-- Puedes cambiar este enlace por una foto de ella (ejemplo: foto_novia.jpg) -->
+                <img class="heart-avatar" src="C:\Users\tibur\Documents\10\teo.jpg" alt="Ella">
+                <div id="reloj-cabos" class="time">00:00:00</div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="mood-container">
+        <h2 class="mood-title">Como estaaass??? Cmoo te sientes???</h2>
+        <div class="mood-buttons">
+            <button class="mood-btn-select" onclick="cambiarAnimo('feliz')"> Feliz😁</button>
+            <button class="mood-btn-select" onclick="cambiarAnimo('extrano')"> Te extraño😔</button>
+            <button class="mood-btn-select" onclick="cambiarAnimo('cansado')">Cansada😴 </button>
+            <button class="mood-btn-select" onclick="cambiarAnimo('triste')"> Triste😭</button>
+            <button class="mood-btn-select" onclick="cambiarAnimo('emocionada')">Ya me caiste mal😤</button>
+            
+        </div>
+        <p id="mood-message">No importa la distancia siempre estare pendiente de ti</p>
+    </div>
+
+    <div class="gallery-container">
+        <h2 class="gallery-title">📸</h2>
+        <div class="photos-grid">
+            <div class="polaroid">
+                <img src="C:\Users\tibur\Documents\10\WhatsApp Image 2026-05-31 at 10.03.55 PM (2).jpeg" alt="Momento 1">
+                <div class="caption">Te</div>
+            </div>
+            <div class="polaroid">
+                <img src="C:\Users\tibur\Documents\10\WhatsApp Image 2026-05-31 at 10.03.55 PM (1).jpeg" alt="Momento 2">
+                <div class="caption">Amooo</div>
+            </div>
+            <div class="polaroid">
+                <img src="C:\Users\tibur\Documents\10\WhatsApp Image 2026-05-31 at 10.03.55 PM.jpeg" alt="Momento 3">
+                <div class="caption">muchooo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="counter-container">
+        <div class="counter-title">Tiempo juntos:</div>
+        <div id="contador">Cargando momentos felices...</div>
+    </div>
+
+    <a href=https://open.spotify.com/playlist/5U7eCGalsLBuGTeqqSlcb8?si=4Gm-2rNYQSihCgYxGD31Sg&pi=RCUxyGcaSsKEN>🎵</a>
+
+    <script>
+       
+        function actualizarRelojes() {
+            const ahora = new Date();
+
+            const opcionesEdomex = {
+                timeZone: 'America/Mexico_City',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            };
+            
+            const opcionesCabos = {
+                timeZone: 'America/Mazatlan',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            };
+
+            document.getElementById('reloj-edomex').textContent = ahora.toLocaleTimeString('es-MX', opcionesEdomex);
+            document.getElementById('reloj-cabos').textContent = ahora.toLocaleTimeString('es-MX', opcionesCabos);
+        }
+
+        // 2. Lógica del contador (Cambia tu fecha aquí: Año, Mes-1, Día)
+        const fechaInicio = new Date(2026, 3, 10, 0, 0, 0); 
+
+        function actualizarContador() {
+            const ahora = new Date();
+            const diferencia = ahora - fechaInicio;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            document.getElementById('contador').innerHTML = 
+                `${dias} días, ${horas} horas, ${minutos} min y ${segundos} seg`;
+        }
+
+        
+        function cambiarAnimo(animo) {
+            const msg = document.getElementById('mood-message');
+            
+            if (animo === 'feliz') {
+                document.body.style.background = "linear-gradient(135deg, #4a1525 0%, #0f0507 100%)"; 
+                msg.innerHTML = "Amo tu sonrisa como no tienes una idea con solo verla me alegra el dia";
+            } else if (animo === 'extrano') {
+                document.body.style.background = "linear-gradient(135deg, #162a45 0%, #050b14 100%)"; 
+                msg.innerHTML = "Yo también te extraño muchoooo aunque no este contigo creeme que cada segundo me enamoro mas de ti";
+            } else if (animo === 'cansado') {
+                document.body.style.background = "linear-gradient(135deg, #1c2e24 0%, #070d0a 100%)"; 
+                msg.innerHTML = "Estoy aqui para ti y siempre lo estare cualquier cosa que necesites dimeee";
+            } else if (animo === 'triste') {
+                document.body.style.background = "linear-gradient(135deg, #2b2b2b 0%, #121212 100%)"; 
+                msg.innerHTML = "Talvez no pueda estar ahi contigo pero si necesitas hablar siempre te pudeo escuchaaar";
+            } else if (animo === 'emocionada') {
+                document.body.style.background = "linear-gradient(135deg, #5c2c6d 0%, #1a0921 100%)"; 
+                msg.innerHTML = "No se siento que es muy probable que aprietes mas este boton jajajajaja es que como me encanta estar fastidiandote ";
+            }
+        }
+
+        actualizarRelojes();
+        actualizarContador();
+        setInterval(actualizarRelojes, 1000);
+        setInterval(actualizarContador, 1000);
+    </script>
+</body>
+</html>
